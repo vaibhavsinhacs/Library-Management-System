@@ -3,9 +3,9 @@
 #include<iostream>
 #include<fstream>
 #include<iomanip>
-#include<stdio.h>
+#include<cstdio>
 #include<cstdlib>
-#include<string.h>
+#include<cstring>
 #include<conio.h>
 #define cls() system("CLS")					//defining cls() for clearing screen
 using namespace std;
