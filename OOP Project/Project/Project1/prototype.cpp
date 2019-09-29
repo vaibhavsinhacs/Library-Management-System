@@ -5,7 +5,7 @@
 #include<iomanip>
 #include<cstdio>
 #include<cstdlib>
-#include<cstring>
+#include<string.h>
 #include<conio.h>
 #define cls() system("CLS")					//defining cls() for clearing screen
 using namespace std;
