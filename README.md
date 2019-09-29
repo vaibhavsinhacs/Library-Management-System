@@ -1,3 +1,3 @@
 # Library-Management-System
 
-OOP Project
+POOP Project
