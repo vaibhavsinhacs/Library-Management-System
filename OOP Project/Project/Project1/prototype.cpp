@@ -13,14 +13,38 @@ using namespace std;
 class Library
 {
 public:
+	char book[50], author[50], publication[50], id[20];
+	int quantity;
+	float price;
+	void getData();
+	void showData();
 	void mainMenu();
 	void student();
 	void staff();
-	void booksCategory(int);
+	int booksCategory(int);
 	void modifyBooklist();
 	void addBooks();
 	void SCE();
 };
+
+//function to get details of book
+void Library::getData()
+{
+	cin.ignore();
+	cout << "\t\t\tEnter the details of the book:-" << endl << endl;
+	cout << "\n\t\t\tEnter Book's Name: ";
+	cin.getline(book, 50);
+	cout << endl << "\t\t\tEnter Author's Name: ";
+	cin.getline(author, 50);
+	cout << endl << "\t\t\tEnter Publication Name: ";
+	cin.getline(publication, 50);
+	cout << endl << "\t\t\tEnter Book's ID: ";
+	cin.getline(id, 20);
+	cout << endl << "\t\t\tEnter Book's Price: ";
+	cin >> price;
+	cout << endl << "\t\t\tEnter Book's Quantity: ";
+	cin >> quantity;
+}
 
 //function to display the main menu
 void Library::mainMenu()
@@ -133,7 +157,7 @@ void Library::student()
 }
 
 //function to display a list of category of books available in the library
-void Library::booksCategory(int flag)
+int Library::booksCategory(int flag)
 {
 	cls();
 	cout << "\t\t\t\t\t********** CATEGORY OF BOOKS **********\n\n";
@@ -146,29 +170,17 @@ void Library::booksCategory(int flag)
 	switch (choice)
 	{
 	case 1:
-		cls();
-		SCE();
-		break;
+		return 1;
 	case 2:
-		cls();
-		SCE();
-		break;
+		return 2;
 	case 3:
-		cls();
-		SCE();
-		break;
+		return 3;
 	case 4:
-		cls();
-		SCE();
-		break;
+		return 4;
 	case 5:
-		cls();
-		SCE();
-		break;
+		return 5;
 	case 6:
-		cls();
-		SCE();
-		break;
+		return 6;
 	case 7:
 		cls();
 		if (flag == 1)
@@ -202,7 +214,6 @@ void Library::modifyBooklist()
 	switch (choice)
 	{
 	case 1:
-		//(void)_getch();
 		addBooks();
 		break;
 	case 2:
@@ -231,36 +242,21 @@ void Library::modifyBooklist()
 void Library::addBooks()
 {
 	cls();
-	booksCategory(2);
+	int category = booksCategory(2);
+	cls();
+	getData();
+	ofstream fout("Books.txt", ios::app);
+	fout << endl << book << setw(30) << author << setw(30) << publication << setw(15) << id << setw(15) << price << setw(15) << quantity;
+	fout.close();
+	cout << "\n\n\t\t\tBook Added Successfully.";
+	cout << "\n\n\t\t\tPress any key to continue";
+	(void)_getch();
+	modifyBooklist();
 }
 
 void Library::SCE()
 {
-	char book[40], author[30], publication[40];
-	int id, quantity;
-	float price;
-	ofstream fout;
-	fout.open("Books.txt", ios::app);
-	cout << "\t\t\tEnter the details of the book:-" << endl << endl;
-	cin.ignore();
-	cout << "\t\t\tEnter Book's Name: ";
-	cin.getline(book, 30);
-	cout << "\t\t\tEnter Author's Name: ";
-	cin.getline(author, 30);
-	cout << "\t\t\tEnter Publication Name: ";
-	cin.getline(publication, 40);
-	cout << "\t\t\tEnter Book's ID: ";
-	cin >> id;
-	cout << "\t\t\tEnter Book's Price: ";
-	cin >> price;
-	cout << "\t\t\tEnter Book's Quantity: ";
-	cin >> quantity;
-	fout << book << "\t\t" << author << "\t\t" << publication << "\t\t" << id << "\t\t" << price << "\t\t" << quantity << endl;
-	fout.close();
-	cout << "\t\t\t\n\nBook Added Successfully.\n\n";
-	cout << "\t\t\tPress any key to continue";
-	(void)_getch();
-	staff();
+	
 }
 
 int main()

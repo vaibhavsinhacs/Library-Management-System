@@ -1,2 +1,3 @@
 ﻿  prototype.cpp
-  Project1.vcxproj -> C:\Users\KIIT\Documents\Visual Studio 2019\MY WORK\OOP Project\Project\Debug\Project1.exe
+C:\Users\KIIT\Documents\gitTest\Library-Management-System\OOP Project\Project\Project1\prototype.cpp(202): warning C4715:  'Library::booksCategory': not all control paths return a value
+  Project1.vcxproj -> C:\Users\KIIT\Documents\gitTest\Library-Management-System\OOP Project\Project\Debug\Project1.exe
