@@ -7,7 +7,7 @@
 #include<cstdlib>
 #include<cstring>
 #include<conio.h>
-#define cls() system("CLS")					//defining cls() for clearing screen
+#define cls() system("CLS")		//defining cls() for clearing screen
 using namespace std;
 
 class Library
@@ -22,7 +22,8 @@ public:
 	void SCE();
 };
 
-void Library::mainMenu()						//function to display the main menu
+//function to display the main menu
+void Library::mainMenu()
 {
 	int choice;
 	cout << "\t\t\t\t\t********** LIBRARY DETAILS **********\n\n";
@@ -51,7 +52,8 @@ void Library::mainMenu()						//function to display the main menu
 	}
 }
 
-void Library::staff()								//function to display options for staff
+//function to display options for staff
+void Library::staff()
 {
 	cls();
 	cout << "\t\t\t\t\t********** WELCOME STAFF **********\n\n";
@@ -94,7 +96,8 @@ void Library::staff()								//function to display options for staff
 	}
 }
 
-void Library::student()									//function to display options for students
+//function to display options for students
+void Library::student()
 {
 	cls();
 	cout << "\t\t\t\t\t********** WELCOME STUDENT **********\n\n";
@@ -129,7 +132,8 @@ void Library::student()									//function to display options for students
 	}
 }
 
-void Library::booksCategory(int flag)				//function to display a list of category of books available in the library
+//function to display a list of category of books available in the library
+void Library::booksCategory(int flag)
 {
 	cls();
 	cout << "\t\t\t\t\t********** CATEGORY OF BOOKS **********\n\n";
