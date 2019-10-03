@@ -1,5 +1,4 @@
 // LIBRARY MANAGEMENT UNDER UNIVERSITY MANAGEMENT SYSTEM
-// NO MORE FRUSTRATION
 
 #include<iostream>
 #include<fstream>
