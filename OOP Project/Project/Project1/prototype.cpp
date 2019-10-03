@@ -24,14 +24,13 @@ public:
 	int booksCategory(int);
 	void modifyBooklist();
 	void addBooks();
-	void SCE();
 };
 
 //function to get details of book
 void Library::getData()
 {
 	cin.ignore();
-	cout << "\t\t\tEnter the details of the book:-" << endl << endl;
+	cout << "\t\t\t\t\t********** ENTER BOOK DETAILS **********" << endl << endl;
 	cout << "\n\t\t\tEnter Book's Name: ";
 	cin.getline(book, 50);
 	cout << endl << "\t\t\tEnter Author's Name: ";
@@ -44,6 +43,18 @@ void Library::getData()
 	cin >> price;
 	cout << endl << "\t\t\tEnter Book's Quantity: ";
 	cin >> quantity;
+}
+
+//function to display details of book(s)
+void Library::showData()
+{
+	cout << "\t\t\t\t\t********** BOOK DETAILS **********" << endl << endl;
+	cout << "\n\t\tName of the book: " << book << endl;
+	cout << "\n\t\tAuthor's name: " << author;
+	cout << "\n\t\tPublication's name: " << publication;
+	cout << "\n\t\tBook's ID: " << id;
+	cout << "\n\t\tPrice of the book: " << price;
+	cout << "\n\t\tNumber of books available: " << quantity;
 }
 
 //function to display the main menu
@@ -252,11 +263,6 @@ void Library::addBooks()
 	cout << "\n\n\t\t\tPress any key to continue";
 	(void)_getch();
 	modifyBooklist();
-}
-
-void Library::SCE()
-{
-	
 }
 
 int main()
