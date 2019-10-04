@@ -259,9 +259,42 @@ void Library::addBooks()
 	int aCategory = booksCategory(2);
 	cls();
 	getData();
-	ofstream fout("Books.txt", ios::app);
-	fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
-	fout.close();
+	if (aCategory == 1)
+	{
+		ofstream fout("csBooks.txt", ios::app);
+		fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+		fout.close();
+	}
+	if (aCategory == 2)
+	{
+		ofstream fout("eceBooks.txt", ios::app);
+		fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+		fout.close();
+	}
+	if (aCategory == 3)
+	{
+		ofstream fout("elecBooks.txt", ios::app);
+		fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+		fout.close();
+	}
+	if (aCategory == 4)
+	{
+		ofstream fout("mechBooks.txt", ios::app);
+		fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+		fout.close();
+	}
+	if (aCategory == 5)
+	{
+		ofstream fout("civilBooks.txt", ios::app);
+		fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+		fout.close();
+	}
+	if (aCategory == 6)
+	{
+		ofstream fout("yearOneBooks.txt", ios::app);
+		fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+		fout.close();
+	}
 	cout << "\n\n\t\t\tBook Added Successfully.";
 	cout << "\n\n\t\t\tPress any key to continue";
 	(void)_getch();
@@ -275,30 +308,168 @@ void Library::viewBooks(int flag)
 	cls();
 	int vCategory = booksCategory(flag);
 	cls();
-	ifstream fin("Books.txt", ios::in);
-	if (!fin)
-		cout << "\n\t\tFile Not Found.";
-	else
+	if (vCategory == 1)
 	{
-		cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
-		fin.getline(book, 50);
-		fin.getline(author, 50);
-		fin.getline(publication, 50);
-		fin >> id >> price >> quantity;
-		while (1)
+		ifstream fin("csBooks.txt", ios::in);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
 		{
-			serial_num++;
-			cout << "\n\t\t##### " << serial_num << " #####\n";
-			showData();
-			if (fin.eof())
-				break;
+			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
 			fin.getline(book, 50);
 			fin.getline(author, 50);
 			fin.getline(publication, 50);
 			fin >> id >> price >> quantity;
+			while (1)
+			{
+				serial_num++;
+				cout << "\n\t\t\t##### " << serial_num << " #####\n";
+				showData();
+				if (fin.eof())
+					break;
+				fin.getline(book, 50);
+				fin.getline(author, 50);
+				fin.getline(publication, 50);
+				fin >> id >> price >> quantity;
+			}
 		}
+		fin.close();
 	}
-	fin.close();
+	if (vCategory == 2)
+	{
+		ifstream fin("eceBooks.txt", ios::in);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
+			fin.getline(book, 50);
+			fin.getline(author, 50);
+			fin.getline(publication, 50);
+			fin >> id >> price >> quantity;
+			while (1)
+			{
+				serial_num++;
+				cout << "\n\t\t\t##### " << serial_num << " #####\n";
+				showData();
+				if (fin.eof())
+					break;
+				fin.getline(book, 50);
+				fin.getline(author, 50);
+				fin.getline(publication, 50);
+				fin >> id >> price >> quantity;
+			}
+		}
+		fin.close();
+	}
+	if (vCategory == 3)
+	{
+		ifstream fin("elecBooks.txt", ios::in);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
+			fin.getline(book, 50);
+			fin.getline(author, 50);
+			fin.getline(publication, 50);
+			fin >> id >> price >> quantity;
+			while (1)
+			{
+				serial_num++;
+				cout << "\n\t\t\t##### " << serial_num << " #####\n";
+				showData();
+				if (fin.eof())
+					break;
+				fin.getline(book, 50);
+				fin.getline(author, 50);
+				fin.getline(publication, 50);
+				fin >> id >> price >> quantity;
+			}
+		}
+		fin.close();
+	}
+	if (vCategory == 4)
+	{
+		ifstream fin("mechBooks.txt", ios::in);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
+			fin.getline(book, 50);
+			fin.getline(author, 50);
+			fin.getline(publication, 50);
+			fin >> id >> price >> quantity;
+			while (1)
+			{
+				serial_num++;
+				cout << "\n\t\t\t##### " << serial_num << " #####\n";
+				showData();
+				if (fin.eof())
+					break;
+				fin.getline(book, 50);
+				fin.getline(author, 50);
+				fin.getline(publication, 50);
+				fin >> id >> price >> quantity;
+			}
+		}
+		fin.close();
+	}
+	if (vCategory == 5)
+	{
+		ifstream fin("civilBooks.txt", ios::in);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
+			fin.getline(book, 50);
+			fin.getline(author, 50);
+			fin.getline(publication, 50);
+			fin >> id >> price >> quantity;
+			while (1)
+			{
+				serial_num++;
+				cout << "\n\t\t\t##### " << serial_num << " #####\n";
+				showData();
+				if (fin.eof())
+					break;
+				fin.getline(book, 50);
+				fin.getline(author, 50);
+				fin.getline(publication, 50);
+				fin >> id >> price >> quantity;
+			}
+		}
+		fin.close();
+	}
+	if (vCategory == 6)
+	{
+		ifstream fin("yearOneBooks.txt", ios::in);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
+			fin.getline(book, 50);
+			fin.getline(author, 50);
+			fin.getline(publication, 50);
+			fin >> id >> price >> quantity;
+			while (1)
+			{
+				serial_num++;
+				cout << "\n\t\t\t##### " << serial_num << " #####\n";
+				showData();
+				if (fin.eof())
+					break;
+				fin.getline(book, 50);
+				fin.getline(author, 50);
+				fin.getline(publication, 50);
+				fin >> id >> price >> quantity;
+			}
+		}
+		fin.close();
+	}
 	cout << "\n\n\n\t\tPress any key to continue";
 	(void)_getch();
 	cls();
