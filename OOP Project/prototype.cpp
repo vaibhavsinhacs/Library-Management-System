@@ -213,6 +213,7 @@ int Library::booksCategory(int flag)
 	}
 }
 
+//function to modify list of books
 void Library::modifyBooklist()
 {
 	cls();
@@ -251,6 +252,7 @@ void Library::modifyBooklist()
 	}
 }
 
+//function to add books
 void Library::addBooks()
 {
 	cls();
@@ -266,6 +268,7 @@ void Library::addBooks()
 	modifyBooklist();
 }
 
+//function to view list of books
 void Library::viewBooks(int flag)
 {
 	int serial_num = 0;
@@ -305,6 +308,7 @@ void Library::viewBooks(int flag)
 		staff();
 }
 
+//driver function
 int main()
 {
 	Library lib;
