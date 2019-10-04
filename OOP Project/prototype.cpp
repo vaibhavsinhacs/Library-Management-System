@@ -24,37 +24,37 @@ public:
 	int booksCategory(int);
 	void modifyBooklist();
 	void addBooks();
+	void viewBooks(int);
 };
 
 //function to get details of book
 void Library::getData()
 {
 	cin.ignore();
-	cout << "\t\t\t\t\t********** ENTER BOOK DETAILS **********" << endl << endl;
-	cout << "\n\t\t\tEnter Book's Name: ";
+	cout << "\t\t\t\t\t********** ENTER BOOK DETAILS **********";
+	cout << "\n\n\n\t\t\tEnter Book's Name: ";
 	cin.getline(book, 50);
-	cout << endl << "\t\t\tEnter Author's Name: ";
+	cout << "\n\t\t\tEnter Author's Name: ";
 	cin.getline(author, 50);
-	cout << endl << "\t\t\tEnter Publication Name: ";
+	cout << "\n\t\t\tEnter Publication Name: ";
 	cin.getline(publication, 50);
-	cout << endl << "\t\t\tEnter Book's ID: ";
-	cin.getline(id, 20);
-	cout << endl << "\t\t\tEnter Book's Price: ";
+	cout << "\n\t\t\tEnter Book's ID: ";
+	cin >> id;
+	cout << "\n\t\t\tEnter Book's Price: ";
 	cin >> price;
-	cout << endl << "\t\t\tEnter Book's Quantity: ";
+	cout << "\n\t\t\tEnter Book's Quantity: ";
 	cin >> quantity;
 }
 
 //function to display details of book(s)
 void Library::showData()
 {
-	cout << "\t\t\t\t\t********** BOOK DETAILS **********" << endl << endl;
-	cout << "\n\t\tName of the book: " << book << endl;
-	cout << "\n\t\tAuthor's name: " << author;
-	cout << "\n\t\tPublication's name: " << publication;
-	cout << "\n\t\tBook's ID: " << id;
-	cout << "\n\t\tPrice of the book: " << price;
-	cout << "\n\t\tNumber of books available: " << quantity;
+	cout << "\n\t\tName of the book: " << book;
+	cout << "\n\n\t\tAuthor's name: " << author;
+	cout << "\n\n\t\tPublication's name: " << publication;
+	cout << "\n\n\t\tBook's ID: " << id;
+	cout << "\n\n\t\tPrice of the book: " << price;
+	cout << "\n\n\t\tNumber of books available: " << quantity << endl << endl;
 }
 
 //function to display the main menu
@@ -101,7 +101,7 @@ void Library::staff()
 	switch (choice)
 	{
 	case 1:
-		booksCategory(2);
+		viewBooks(2);
 		break;
 	case 2:
 		cout << "\t\t\t\t\tBook searching will happen here.\n\n";
@@ -182,6 +182,7 @@ int Library::booksCategory(int flag)
 	{
 	case 1:
 		return 1;
+		break;
 	case 2:
 		return 2;
 	case 3:
@@ -253,16 +254,55 @@ void Library::modifyBooklist()
 void Library::addBooks()
 {
 	cls();
-	int category = booksCategory(2);
+	int aCategory = booksCategory(2);
 	cls();
 	getData();
 	ofstream fout("Books.txt", ios::app);
-	fout << endl << book << setw(30) << author << setw(30) << publication << setw(15) << id << setw(15) << price << setw(15) << quantity;
+	fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
 	fout.close();
 	cout << "\n\n\t\t\tBook Added Successfully.";
 	cout << "\n\n\t\t\tPress any key to continue";
 	(void)_getch();
 	modifyBooklist();
+}
+
+void Library::viewBooks(int flag)
+{
+	int serial_num = 0;
+	cls();
+	int vCategory = booksCategory(flag);
+	cls();
+	ifstream fin("Books.txt", ios::in);
+	if (!fin)
+		cout << "\n\t\tFile Not Found.";
+	else
+	{
+		cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
+		fin.getline(book, 50);
+		fin.getline(author, 50);
+		fin.getline(publication, 50);
+		fin >> id >> price >> quantity;
+		while (1)
+		{
+			serial_num++;
+			cout << "\n\t\t##### " << serial_num << " #####\n";
+			showData();
+			if (fin.eof())
+				break;
+			fin.getline(book, 50);
+			fin.getline(author, 50);
+			fin.getline(publication, 50);
+			fin >> id >> price >> quantity;
+		}
+	}
+	fin.close();
+	cout << "\n\n\n\t\tPress any key to continue";
+	(void)_getch();
+	cls();
+	if (flag == 1)
+		student();
+	else
+		staff();
 }
 
 int main()
