@@ -145,7 +145,7 @@ void Library::student()
 	switch (choice)
 	{
 	case 1:
-		booksCategory(1);
+		viewBooks(1);
 		break;
 	case 2:
 		cout << "\t\t\t\t\tBook searching will happen here.\n\n";
