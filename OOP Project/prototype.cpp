@@ -27,6 +27,280 @@ public:
 	void viewBooks(int);
 };
 
+//function to remove books
+void Library::removeBook()
+{
+	cls();
+	int aCategory = booksCategory(2);
+	cls();
+	if (aCategory == 1)
+		ifstream fin("csBooks.txt");
+	if (aCategory == 2)
+		ifstream fin("eceBooks.txt");
+	if (aCategory == 3)
+		ifstream fin("elecBooks.txt");
+	if (aCategory == 4)
+		ifstream fin("mechBooks.txt");
+	if (aCategory == 5)
+		ifstream fin("civilBooks.txt");
+	if (aCategory == 6)
+		ifstream fin("yearOneBooks.txt");
+	ofstream temp;
+	temp.open("tempFile.txt");
+	char delBook[100];
+	cout << "\nEnter the name of the book you want to remove: ";
+	cin.getline(delBook, 100);
+	while (!(fin.eof()))
+	{
+		char bname[100], aname[100], pname[100];
+		int bid, bquantity; float bprice;
+		fin.getline(bname, 100);
+		fin.getline(aname, 100);
+		fin.getline(pname, 100);
+		fin >> bid >> bquantity >> bprice;
+		if (strcmp(delBook, bname) != 0)
+		{
+			temp << bname << endl << aname << pname << endl << bid << endl << bquantity << endl << bprice << endl;
+		}
+	}
+	fin.close();
+	temp.close();
+	if (aCategory == 1)
+	{
+		remove("csBooks.txt");
+		rename("tempFile.txt", "csBooks.txt");
+	}
+	if (aCategory == 2)
+	{
+		remove("eceBooks.txt");
+		rename("tempFile.txt", "eceBooks.txt");
+	}
+	if (aCategory == 3)
+	{
+		remove("elecBooks.txt");
+		rename("tempFile.txt", "elecBooks.txt");
+	}
+	if (aCategory == 4)
+	{
+		remove("mechBooks.txt");
+		rename("tempFile.txt", "mechBooks.txt");
+	}
+	if (aCategory == 5)
+	{
+		remove("civilBooks.txt");
+		rename("tempFile.txt", "civilBooks.txt");
+	}
+	if (aCategory == 6)
+	{
+		remove("yearOneBooks.txt");
+		rename("tempFile.txt", "yearOneBooks.txt");
+	}
+	cout << "\n\n\t\t\tBook Deleted Successfully.";
+	cout << "\n\n\t\t\tPress any key to continue";
+	(void)_getch();
+	modifyBooklist();
+}
+
+
+
+//function to issue book
+void Library::issueBook()
+{
+	cls();
+	int aCategory = booksCategory(2);
+	cls();
+	if (aCategory == 1)
+		fstream file("csBooks.txt");
+	if (aCategory == 2)
+		fstream file("eceBooks.txt");
+	if (aCategory == 3)
+		fstream file("elecBooks.txt");
+	if (aCategory == 4)
+		fstream file("mechBooks.txt");
+	if (aCategory == 5)
+		fstream file("civilBooks.txt");
+	if (aCategory == 6)
+		fstream file("yearOneBooks.txt");
+	char bookName[100];
+	cout << "Enter name of the book: ";
+	cin.getline(bookName, 100);
+	while (!file.eof())
+	{
+		char bname[100], aname[100], pname[100];
+		int bid, bquantity; float bprice;
+		file.getline(bname, 100);
+		file.getline(aname, 100);
+		file.getline(pname, 100);
+		file >> bid >> bquantity >> bprice;
+		//size=total size of the information extracted
+		if (strcmp(bookName, bname) == 0)
+		{
+			seekp(size, ios::cur);
+			file << bname << endl << aname << endl << pname << endl << bid << endl << bquantity - 1 << endl << bprice << endl;
+			break;
+		}
+	}
+	file.close();
+	cout << "\n\n\t\t\tBook Issued Successfully.";
+	cout << "\n\n\t\t\tPress any key to continue";
+	(void)_getch();
+	issueBook();
+}
+
+//function to return book
+void Library::returnBook()
+{
+	cls();
+	int aCategory = booksCategory(2);
+	cls();
+	if (aCategory == 1)
+		fstream file("csBooks.txt");
+	if (aCategory == 2)
+		fstream file("eceBooks.txt");
+	if (aCategory == 3)
+		fstream file("elecBooks.txt");
+	if (aCategory == 4)
+		fstream file("mechBooks.txt");
+	if (aCategory == 5)
+		fstream file("civilBooks.txt");
+	if (aCategory == 6)
+		fstream file("yearOneBooks.txt");
+	char bookName[100];
+	cout << "Enter name of the book: ";
+	cin.getline(bookName, 100);
+	while (!file.eof())
+	{
+		char bname[100], aname[100], pname[100];
+		int bid, bquantity; float bprice;
+		file.getline(bname, 100);
+		file.getline(aname, 100);
+		file.getline(pname, 100);
+		file >> bid >> bquantity >> bprice;
+		//size=total size of the information extracted
+		if (strcmp(bookName, bname) == 0)
+		{
+			seekp(size, ios::cur);
+			file << bname << endl << aname << endl << pname << endl << bid << endl << bquantity + 1 << endl << bprice << endl;
+			break;
+		}
+	}
+	file.close();
+	cout << "\n\n\t\t\tBook Returned Successfully.";
+	cout << "\n\n\t\t\tPress any key to continue";
+	(void)_getch();
+	returnBook();
+}
+
+//function to search for any book
+void Library::searchBook()
+{
+	cls();
+	int aCategory = booksCategory(2);
+	cls();
+	if (aCategory == 1)
+		ifstream file("csBooks.txt");
+	if (aCategory == 2)
+		ifstream file("eceBooks.txt");
+	if (aCategory == 3)
+		ifstream file("elecBooks.txt");
+	if (aCategory == 4)
+		ifstream file("mechBooks.txt");
+	if (aCategory == 5)
+		ifstream file("civilBooks.txt");
+	if (aCategory == 6)
+		ifstream file("yearOneBooks.txt");
+	cls();
+	int ch;
+	cout << ".....Search Menu.....";
+	cout << "\t\t\t\t>>>>1. Search by name\n";
+	cout << "\t\t\t\t>>>>2. Search by id\n";
+	cout << "\t\t\t\t>>>>3. Search by author\n";
+	cout << "Enter your choice: ";
+	cin >> ch;
+	cls();
+	switch (ch)
+	{
+	case 1:
+	{
+		char bookName[100]; int count = 1;
+		cout << "Enter name of the book: ";
+		cin.getline(bookName, 100);
+		while (!fin.eof())
+		{
+			char bname[100], aname[100], pname[100];
+			int bid, bquantity; float bprice;
+			fin.getline(bname, 100);
+			fin.getline(aname, 100);
+			fin.getline(pname, 100);
+			fin >> bid >> bquantity >> bprice;
+			if (strcmp(bookName, bname) == 0)
+			{
+				cout << "#####" << count << "#####" << endl;
+				cout << bname << endl << aname << endl << pname << endl << bid << endl << bquantity << endl << bprice << endl;
+				count++;
+			}
+		}
+		break;
+	}
+	case 2:
+	{
+		int bookID; int count = 1;
+		cout << "Enter book ID: ";
+		cin >> bookID;
+		while (!fin.eof())
+		{
+			char bname[100], aname[100], pname[100];
+			int bid, bquantity; float bprice;
+			fin.getline(bname, 100);
+			fin.getline(aname, 100);
+			fin.getline(pname, 100);
+			fin >> bid >> bquantity >> price;
+			if (bookID == bid)
+			{
+				cout << "#####" << count << "#####" << endl;
+				cout << bname << endl << aname << endl << pname << endl << bid << endl << bquantity << endl << bprice << endl;
+				count++;
+			}
+		}
+		if (count == 1)
+		{
+			cout << "Book not found";
+		}
+		break;
+	}
+	case 3:
+	{
+		char authorName[100]; int count = 1;
+		cout << "Enter author name:";
+		cin >> authorName;
+		while (!fin.eof())
+		{
+			char bname[100], aname[100], pname[100];
+			int bid, bquantity; float bprice;
+			fin.getline(bname, 100);
+			fin.getline(aname, 100);
+			fin.getline(pname, 100);
+			fin >> bid >> bquantity >> bprice;
+			if (strcmp(authorName, aname) == 0)
+			{
+				cout << "#####" << count << "#####" << endl;
+				cout << bname << endl << aname << endl << pname << endl << bid << endl << bquantity << endl << bprice << endl;
+				count++;
+			}
+		}
+		if (count == 1)
+		{
+			cout << "Book not found";
+		}
+		break;
+	}
+	default:
+		cout << "invalid\n";
+	}
+	fin.close();
+}
+
+
 //function to get details of book
 void Library::getData()
 {
