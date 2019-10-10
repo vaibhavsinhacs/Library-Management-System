@@ -7,15 +7,16 @@
 #include<cstdlib>
 #include<cstring>
 #include<conio.h>
+#include<limits.h>
 #define cls() system("CLS")		//defining cls() for clearing screen
 using namespace std;
 
 class Library
 {
 public:
-	char book[50], author[50], publication[50], id[20];
-	int quantity;
+	char book[100], author[100], publication[100], id[20];
 	float price;
+	int quantity;
 	void getData();
 	void showData();
 	void mainMenu();
@@ -25,281 +26,11 @@ public:
 	void modifyBooklist();
 	void addBooks();
 	void viewBooks(int);
+	void removeBook();
+	void searchBook(int);
+	void issueBook();
+	void returnBook();
 };
-
-//function to remove books
-void Library::removeBook()
-{
-	cls();
-	int aCategory = booksCategory(2);
-	cls();
-	if (aCategory == 1)
-		ifstream fin("csBooks.txt");
-	if (aCategory == 2)
-		ifstream fin("eceBooks.txt");
-	if (aCategory == 3)
-		ifstream fin("elecBooks.txt");
-	if (aCategory == 4)
-		ifstream fin("mechBooks.txt");
-	if (aCategory == 5)
-		ifstream fin("civilBooks.txt");
-	if (aCategory == 6)
-		ifstream fin("yearOneBooks.txt");
-	ofstream temp;
-	temp.open("tempFile.txt");
-	char delBook[100];
-	cout << "\nEnter the name of the book you want to remove: ";
-	cin.getline(delBook, 100);
-	while (!(fin.eof()))
-	{
-		char bname[100], aname[100], pname[100];
-		int bid, bquantity; float bprice;
-		fin.getline(bname, 100);
-		fin.getline(aname, 100);
-		fin.getline(pname, 100);
-		fin >> bid >> bquantity >> bprice;
-		if (strcmp(delBook, bname) != 0)
-		{
-			temp << bname << endl << aname << pname << endl << bid << endl << bquantity << endl << bprice << endl;
-		}
-	}
-	fin.close();
-	temp.close();
-	if (aCategory == 1)
-	{
-		remove("csBooks.txt");
-		rename("tempFile.txt", "csBooks.txt");
-	}
-	if (aCategory == 2)
-	{
-		remove("eceBooks.txt");
-		rename("tempFile.txt", "eceBooks.txt");
-	}
-	if (aCategory == 3)
-	{
-		remove("elecBooks.txt");
-		rename("tempFile.txt", "elecBooks.txt");
-	}
-	if (aCategory == 4)
-	{
-		remove("mechBooks.txt");
-		rename("tempFile.txt", "mechBooks.txt");
-	}
-	if (aCategory == 5)
-	{
-		remove("civilBooks.txt");
-		rename("tempFile.txt", "civilBooks.txt");
-	}
-	if (aCategory == 6)
-	{
-		remove("yearOneBooks.txt");
-		rename("tempFile.txt", "yearOneBooks.txt");
-	}
-	cout << "\n\n\t\t\tBook Deleted Successfully.";
-	cout << "\n\n\t\t\tPress any key to continue";
-	(void)_getch();
-	modifyBooklist();
-}
-
-
-
-//function to issue book
-void Library::issueBook()
-{
-	cls();
-	int aCategory = booksCategory(2);
-	cls();
-	if (aCategory == 1)
-		fstream file("csBooks.txt");
-	if (aCategory == 2)
-		fstream file("eceBooks.txt");
-	if (aCategory == 3)
-		fstream file("elecBooks.txt");
-	if (aCategory == 4)
-		fstream file("mechBooks.txt");
-	if (aCategory == 5)
-		fstream file("civilBooks.txt");
-	if (aCategory == 6)
-		fstream file("yearOneBooks.txt");
-	char bookName[100];
-	cout << "Enter name of the book: ";
-	cin.getline(bookName, 100);
-	while (!file.eof())
-	{
-		char bname[100], aname[100], pname[100];
-		int bid, bquantity; float bprice;
-		file.getline(bname, 100);
-		file.getline(aname, 100);
-		file.getline(pname, 100);
-		file >> bid >> bquantity >> bprice;
-		//size=total size of the information extracted
-		if (strcmp(bookName, bname) == 0)
-		{
-			seekp(size, ios::cur);
-			file << bname << endl << aname << endl << pname << endl << bid << endl << bquantity - 1 << endl << bprice << endl;
-			break;
-		}
-	}
-	file.close();
-	cout << "\n\n\t\t\tBook Issued Successfully.";
-	cout << "\n\n\t\t\tPress any key to continue";
-	(void)_getch();
-	issueBook();
-}
-
-//function to return book
-void Library::returnBook()
-{
-	cls();
-	int aCategory = booksCategory(2);
-	cls();
-	if (aCategory == 1)
-		fstream file("csBooks.txt");
-	if (aCategory == 2)
-		fstream file("eceBooks.txt");
-	if (aCategory == 3)
-		fstream file("elecBooks.txt");
-	if (aCategory == 4)
-		fstream file("mechBooks.txt");
-	if (aCategory == 5)
-		fstream file("civilBooks.txt");
-	if (aCategory == 6)
-		fstream file("yearOneBooks.txt");
-	char bookName[100];
-	cout << "Enter name of the book: ";
-	cin.getline(bookName, 100);
-	while (!file.eof())
-	{
-		char bname[100], aname[100], pname[100];
-		int bid, bquantity; float bprice;
-		file.getline(bname, 100);
-		file.getline(aname, 100);
-		file.getline(pname, 100);
-		file >> bid >> bquantity >> bprice;
-		//size=total size of the information extracted
-		if (strcmp(bookName, bname) == 0)
-		{
-			seekp(size, ios::cur);
-			file << bname << endl << aname << endl << pname << endl << bid << endl << bquantity + 1 << endl << bprice << endl;
-			break;
-		}
-	}
-	file.close();
-	cout << "\n\n\t\t\tBook Returned Successfully.";
-	cout << "\n\n\t\t\tPress any key to continue";
-	(void)_getch();
-	returnBook();
-}
-
-//function to search for any book
-void Library::searchBook()
-{
-	cls();
-	int aCategory = booksCategory(2);
-	cls();
-	if (aCategory == 1)
-		ifstream file("csBooks.txt");
-	if (aCategory == 2)
-		ifstream file("eceBooks.txt");
-	if (aCategory == 3)
-		ifstream file("elecBooks.txt");
-	if (aCategory == 4)
-		ifstream file("mechBooks.txt");
-	if (aCategory == 5)
-		ifstream file("civilBooks.txt");
-	if (aCategory == 6)
-		ifstream file("yearOneBooks.txt");
-	cls();
-	int ch;
-	cout << ".....Search Menu.....";
-	cout << "\t\t\t\t>>>>1. Search by name\n";
-	cout << "\t\t\t\t>>>>2. Search by id\n";
-	cout << "\t\t\t\t>>>>3. Search by author\n";
-	cout << "Enter your choice: ";
-	cin >> ch;
-	cls();
-	switch (ch)
-	{
-	case 1:
-	{
-		char bookName[100]; int count = 1;
-		cout << "Enter name of the book: ";
-		cin.getline(bookName, 100);
-		while (!fin.eof())
-		{
-			char bname[100], aname[100], pname[100];
-			int bid, bquantity; float bprice;
-			fin.getline(bname, 100);
-			fin.getline(aname, 100);
-			fin.getline(pname, 100);
-			fin >> bid >> bquantity >> bprice;
-			if (strcmp(bookName, bname) == 0)
-			{
-				cout << "#####" << count << "#####" << endl;
-				cout << bname << endl << aname << endl << pname << endl << bid << endl << bquantity << endl << bprice << endl;
-				count++;
-			}
-		}
-		break;
-	}
-	case 2:
-	{
-		int bookID; int count = 1;
-		cout << "Enter book ID: ";
-		cin >> bookID;
-		while (!fin.eof())
-		{
-			char bname[100], aname[100], pname[100];
-			int bid, bquantity; float bprice;
-			fin.getline(bname, 100);
-			fin.getline(aname, 100);
-			fin.getline(pname, 100);
-			fin >> bid >> bquantity >> price;
-			if (bookID == bid)
-			{
-				cout << "#####" << count << "#####" << endl;
-				cout << bname << endl << aname << endl << pname << endl << bid << endl << bquantity << endl << bprice << endl;
-				count++;
-			}
-		}
-		if (count == 1)
-		{
-			cout << "Book not found";
-		}
-		break;
-	}
-	case 3:
-	{
-		char authorName[100]; int count = 1;
-		cout << "Enter author name:";
-		cin >> authorName;
-		while (!fin.eof())
-		{
-			char bname[100], aname[100], pname[100];
-			int bid, bquantity; float bprice;
-			fin.getline(bname, 100);
-			fin.getline(aname, 100);
-			fin.getline(pname, 100);
-			fin >> bid >> bquantity >> bprice;
-			if (strcmp(authorName, aname) == 0)
-			{
-				cout << "#####" << count << "#####" << endl;
-				cout << bname << endl << aname << endl << pname << endl << bid << endl << bquantity << endl << bprice << endl;
-				count++;
-			}
-		}
-		if (count == 1)
-		{
-			cout << "Book not found";
-		}
-		break;
-	}
-	default:
-		cout << "invalid\n";
-	}
-	fin.close();
-}
-
 
 //function to get details of book
 void Library::getData()
@@ -307,11 +38,11 @@ void Library::getData()
 	cin.ignore();
 	cout << "\t\t\t\t\t********** ENTER BOOK DETAILS **********";
 	cout << "\n\n\n\t\t\tEnter Book's Name: ";
-	cin.getline(book, 50);
+	cin.getline(book, 100);
 	cout << "\n\t\t\tEnter Author's Name: ";
-	cin.getline(author, 50);
+	cin.getline(author, 100);
 	cout << "\n\t\t\tEnter Publication Name: ";
-	cin.getline(publication, 50);
+	cin.getline(publication, 100);
 	cout << "\n\t\t\tEnter Book's ID: ";
 	cin >> id;
 	cout << "\n\t\t\tEnter Book's Price: ";
@@ -367,7 +98,7 @@ void Library::staff()
 	cls();
 	cout << "\t\t\t\t\t********** WELCOME STAFF **********\n\n";
 	cout << "\t\t\t\t\t>> Choose any option\n\n";
-	cout << "\t\t\t\t\t1. View Category of Books\n\n" << "\t\t\t\t\t2. Search for a Book\n\n" << "\t\t\t\t\t3. Modify Booklist\n\n" << "\t\t\t\t\t4. Issue Book\n\n" << "\t\t\t\t\t5. Go to Main Menu\n\n" << "\t\t\t\t\t6. Exit Application\n\n";
+	cout << "\t\t\t\t\t1. View Category of Books\n\n" << "\t\t\t\t\t2. Search for a Book\n\n" << "\t\t\t\t\t3. Modify Booklist\n\n" << "\t\t\t\t\t4. Go to Main Menu\n\n" << "\t\t\t\t\t5. Exit Application\n\n";
 	cout << "\t\t\t\t\tEnter choice: ";
 	int choice;
 	cin >> choice;
@@ -378,23 +109,16 @@ void Library::staff()
 		viewBooks(2);
 		break;
 	case 2:
-		cout << "\t\t\t\t\tBook searching will happen here.\n\n";
-		(void)_getch();
-		//searchBook();
+		searchBook(2);
 		break;
 	case 3:
 		modifyBooklist();
 		break;
 	case 4:
-		cout << "\t\t\t\t\tBooks will be issued here.\n\n";
-		(void)_getch();
-		//issueBook();
-		break;
-	case 5:
 		cls();
 		mainMenu();
 		break;
-	case 6:
+	case 5:
 		exit(0);
 	default:
 		cout << "\t\t\t\t\tInvalid choice.\n\n";
@@ -422,9 +146,7 @@ void Library::student()
 		viewBooks(1);
 		break;
 	case 2:
-		cout << "\t\t\t\t\tBook searching will happen here.\n\n";
-		(void)_getch();
-		//searchBook();
+		searchBook(1);
 		break;
 	case 3:
 		cls();
@@ -493,7 +215,7 @@ void Library::modifyBooklist()
 	cls();
 	cout << "\t\t\t\t\t********** BOOKLIST MODIFICATION **********\n\n";
 	cout << "\t\t\t\t\t>> Choose any option\n\n";
-	cout << "\t\t\t\t\t1. Add Books\n\n" << "\t\t\t\t\t2. Remove Books\n\n" << "\t\t\t\t\t3. Modify Current Books\n\n" << "\t\t\t\t\t4. Go Back\n\n";
+	cout << "\t\t\t\t\t1. Add Books\n\n" << "\t\t\t\t\t2. Remove Books\n\n" << "\t\t\t\t\t3. Issue Book\n\n" << "\t\t\t\t\t4. Return Book\n\n" << "\t\t\t\t\t5. Go Back\n\n";
 	cout << "\t\t\t\t\tEnter choice: ";
 	int choice;
 	cin >> choice;
@@ -504,16 +226,15 @@ void Library::modifyBooklist()
 		addBooks();
 		break;
 	case 2:
-		cout << "\t\t\t\t\tRemove books from here.\n\n";
-		(void)_getch();
-		//removeBook();
+		removeBook();
 		break;
 	case 3:
-		cout << "\t\t\t\t\tModify books here.\n\n";
-		(void)_getch();
-		//modifyBooks();
+		issueBook();
 		break;
 	case 4:
+		returnBook();
+		break;
+	case 5:
 		cls();
 		staff();
 		break;
@@ -590,20 +311,25 @@ void Library::viewBooks(int flag)
 		else
 		{
 			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
-			fin.getline(book, 50);
-			fin.getline(author, 50);
-			fin.getline(publication, 50);
+			fin.getline(book, 100);
+			fin.getline(author, 100);
+			fin.getline(publication, 100);
 			fin >> id >> price >> quantity;
 			while (1)
 			{
+				if (book[0] == '\0')
+				{
+					cout << "\n\n\t\t\t\t\t\tNO BOOK AVAILABLE";
+					break;
+				}
 				serial_num++;
 				cout << "\n\t\t\t##### " << serial_num << " #####\n";
 				showData();
 				if (fin.eof())
 					break;
-				fin.getline(book, 50);
-				fin.getline(author, 50);
-				fin.getline(publication, 50);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
 				fin >> id >> price >> quantity;
 			}
 		}
@@ -617,20 +343,25 @@ void Library::viewBooks(int flag)
 		else
 		{
 			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
-			fin.getline(book, 50);
-			fin.getline(author, 50);
-			fin.getline(publication, 50);
+			fin.getline(book, 100);
+			fin.getline(author, 100);
+			fin.getline(publication, 100);
 			fin >> id >> price >> quantity;
 			while (1)
 			{
+				if (book[0] == '\0')
+				{
+					cout << "\n\n\t\t\t\t\t\tNO BOOK AVAILABLE";
+					break;
+				}
 				serial_num++;
 				cout << "\n\t\t\t##### " << serial_num << " #####\n";
 				showData();
 				if (fin.eof())
 					break;
-				fin.getline(book, 50);
-				fin.getline(author, 50);
-				fin.getline(publication, 50);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
 				fin >> id >> price >> quantity;
 			}
 		}
@@ -644,20 +375,25 @@ void Library::viewBooks(int flag)
 		else
 		{
 			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
-			fin.getline(book, 50);
-			fin.getline(author, 50);
-			fin.getline(publication, 50);
+			fin.getline(book, 100);
+			fin.getline(author, 100);
+			fin.getline(publication, 100);
 			fin >> id >> price >> quantity;
 			while (1)
 			{
+				if (book[0] == '\0')
+				{
+					cout << "\n\n\t\t\t\t\t\tNO BOOK AVAILABLE";
+					break;
+				}
 				serial_num++;
 				cout << "\n\t\t\t##### " << serial_num << " #####\n";
 				showData();
 				if (fin.eof())
 					break;
-				fin.getline(book, 50);
-				fin.getline(author, 50);
-				fin.getline(publication, 50);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
 				fin >> id >> price >> quantity;
 			}
 		}
@@ -671,20 +407,25 @@ void Library::viewBooks(int flag)
 		else
 		{
 			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
-			fin.getline(book, 50);
-			fin.getline(author, 50);
-			fin.getline(publication, 50);
+			fin.getline(book, 100);
+			fin.getline(author, 100);
+			fin.getline(publication, 100);
 			fin >> id >> price >> quantity;
 			while (1)
 			{
+				if (book[0] == '\0')
+				{
+					cout << "\n\n\t\t\t\t\t\tNO BOOK AVAILABLE";
+					break;
+				}
 				serial_num++;
 				cout << "\n\t\t\t##### " << serial_num << " #####\n";
 				showData();
 				if (fin.eof())
 					break;
-				fin.getline(book, 50);
-				fin.getline(author, 50);
-				fin.getline(publication, 50);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
 				fin >> id >> price >> quantity;
 			}
 		}
@@ -698,20 +439,25 @@ void Library::viewBooks(int flag)
 		else
 		{
 			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
-			fin.getline(book, 50);
-			fin.getline(author, 50);
-			fin.getline(publication, 50);
+			fin.getline(book, 100);
+			fin.getline(author, 100);
+			fin.getline(publication, 100);
 			fin >> id >> price >> quantity;
 			while (1)
 			{
+				if (book[0] == '\0')
+				{
+					cout << "\n\n\t\t\t\t\t\tNO BOOK AVAILABLE";
+					break;
+				}
 				serial_num++;
 				cout << "\n\t\t\t##### " << serial_num << " #####\n";
 				showData();
 				if (fin.eof())
 					break;
-				fin.getline(book, 50);
-				fin.getline(author, 50);
-				fin.getline(publication, 50);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
 				fin >> id >> price >> quantity;
 			}
 		}
@@ -725,20 +471,25 @@ void Library::viewBooks(int flag)
 		else
 		{
 			cout << "\t\t\t\t\t********** LIST OF BOOKS **********\n\n";
-			fin.getline(book, 50);
-			fin.getline(author, 50);
-			fin.getline(publication, 50);
+			fin.getline(book, 100);
+			fin.getline(author, 100);
+			fin.getline(publication, 100);
 			fin >> id >> price >> quantity;
 			while (1)
 			{
+				if (book[0] == '\0')
+				{
+					cout << "\n\n\t\t\t\t\t\tNO BOOK AVAILABLE";
+					break;
+				}
 				serial_num++;
 				cout << "\n\t\t\t##### " << serial_num << " #####\n";
 				showData();
 				if (fin.eof())
 					break;
-				fin.getline(book, 50);
-				fin.getline(author, 50);
-				fin.getline(publication, 50);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
 				fin >> id >> price >> quantity;
 			}
 		}
@@ -751,6 +502,1098 @@ void Library::viewBooks(int flag)
 		student();
 	else
 		staff();
+}
+
+//function to remove books
+void Library::removeBook()
+{
+	cls();
+	int rCategory = booksCategory(2);
+	cls();
+	int result = INT_MIN;
+	char delBook[100];
+	if (rCategory == 1)
+	{
+		ifstream fin("csBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\n\t\t\tEnter Books's Name: ";
+			cin.ignore();
+			cin.getline(delBook, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(delBook, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("csBooks.txt");
+		result = rename("tempFile.txt", "csBooks.txt");
+	}
+	if (rCategory == 2)
+	{
+		ifstream fin("eceBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\n\t\t\tEnter Books's Name: ";
+			cin.ignore();
+			cin.getline(delBook, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(delBook, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("eceBooks.txt");
+		result = rename("tempFile.txt", "eceBooks.txt");
+	}
+	if (rCategory == 3)
+	{
+		ifstream fin("elecBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\n\t\t\tEnter Books's Name: ";
+			cin.ignore();
+			cin.getline(delBook, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(delBook, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("elecBooks.txt");
+		result = rename("tempFile.txt", "elecBooks.txt");
+	}
+	if (rCategory == 4)
+	{
+		ifstream fin("mechBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\n\t\t\tEnter Books's Name: ";
+			cin.ignore();
+			cin.getline(delBook, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(delBook, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("mechBooks.txt");
+		result = rename("tempFile.txt", "mechBooks.txt");
+	}
+	if (rCategory == 5)
+	{
+		ifstream fin("civilBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\n\t\t\tEnter Books's Name: ";
+			cin.ignore();
+			cin.getline(delBook, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(delBook, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("civilBooks.txt");
+		result = rename("tempFile.txt", "civilBooks.txt");
+	}
+	if (rCategory == 6)
+	{
+		ifstream fin("yearOneBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\n\t\t\tEnter Books's Name: ";
+			cin.ignore();
+			cin.getline(delBook, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(delBook, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("yearOneBooks.txt");
+		result = rename("tempFile.txt", "yearOneBooks.txt");
+	}
+	if (result == 0)
+		cout << "\n\n\t\t\tBook Deleted Successfully.";
+	cout << "\n\n\t\t\tPress any key to continue";
+	(void)_getch();
+	modifyBooklist();
+}
+
+//function to search books
+void Library::searchBook(int flag)
+{
+	cls();
+	int sCategory = booksCategory(2);
+	cls();
+	int choice;
+	char bookName[100], bookID[20];
+	int var = 1;
+	cout << "\t\t\t\t\t********** SEARCH BOOK **********\n\n";
+	cout << "\t\t\t\t\t>> Choose any option\n\n";
+	cout << "\t\t\t\t\t1. Search by name\n\n" << "\t\t\t\t\t2. Search by ID\n\n" << "\t\t\t\t\t3. Go Back\n\n";
+	cout << "\t\t\t\t\tEnter choice: ";
+	cin >> choice;
+	cout << endl << endl;
+	switch (choice)
+	{
+	case 1:
+		cls();
+		if (sCategory == 1)
+		{
+			ifstream fin("csBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's Name: ";
+				cin.ignore();
+				cin.getline(bookName, 100);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookName, book) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		if (sCategory == 2)
+		{
+			ifstream fin("eceBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's Name: ";
+				cin.ignore();
+				cin.getline(bookName, 100);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookName, book) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		if (sCategory == 3)
+		{
+			ifstream fin("elecBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's Name: ";
+				cin.ignore();
+				cin.getline(bookName, 100);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookName, book) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		if (sCategory == 4)
+		{
+			ifstream fin("mechBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's Name: ";
+				cin.ignore();
+				cin.getline(bookName, 100);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookName, book) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		if (sCategory == 5)
+		{
+			ifstream fin("civilBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's Name: ";
+				cin.ignore();
+				cin.getline(bookName, 100);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookName, book) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		if (sCategory == 6)
+		{
+			ifstream fin("yearOneBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's Name: ";
+				cin.ignore();
+				cin.getline(bookName, 100);
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookName, book) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		break;
+	case 2:
+		cls();
+		if (sCategory == 1)
+		{
+			ifstream fin("csBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's ID: ";
+				cin.ignore();
+				cin >> bookID;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookID, id) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		if (sCategory == 2)
+		{
+			ifstream fin("eceBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's ID: ";
+				cin.ignore();
+				cin >> bookID;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookID, id) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		if (sCategory == 3)
+		{
+			ifstream fin("elecBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's ID: ";
+				cin.ignore();
+				cin >> bookID;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookID, id) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		if (sCategory == 4)
+		{
+			ifstream fin("mechBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's ID: ";
+				cin.ignore();
+				cin >> bookID;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookID, id) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		if (sCategory == 5)
+		{
+			ifstream fin("civilBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's ID: ";
+				cin.ignore();
+				cin >> bookID;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookID, id) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		if (sCategory == 6)
+		{
+			ifstream fin("yearOneBooks.txt", ios::in);
+			if (!fin)
+				cout << "\n\t\tFile Not Found.";
+			else
+			{
+				cout << "\n\t\tEnter Book's ID: ";
+				cin.ignore();
+				cin >> bookID;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				while (1)
+				{
+					if (strcmp(bookID, id) == 0)
+					{
+						cout << "\n\n\t\t##### SEARCH RESULTS #####\n";
+						showData();
+						var++;
+					}
+					if (fin.eof())
+						break;
+					fin.getline(book, 100);
+					fin.getline(author, 100);
+					fin.getline(publication, 100);
+					fin >> id >> price >> quantity;
+				}
+				fin.close();
+			}
+			if (var == 1)
+				cout << "\n\n\t\t\tBOOK NOT FOUND";
+			cout << "\n\n\n\t\tPress any key to continue";
+			(void)_getch();
+			if (flag == 1)
+				student();
+			else
+				staff();
+		}
+		break;
+	case 3:
+		cls();
+		if (flag == 1)
+			student();
+		else
+			staff();
+		break;
+	default:
+		cout << "\n\t\t\t\t\tInvalid choice.\n\n";
+		cout << "\n\n\t\t\t\t\tPress any key to be able to enter a valid choice\n\n";
+		(void)_getch();
+		cls();
+		searchBook(flag);
+	}
+}
+
+//function to issue books
+void Library::issueBook()
+{
+	cls();
+	int iCategory = booksCategory(2);
+	cls();
+	char bookName[100];
+	int result = INT_MIN;
+	if (iCategory == 1)
+	{
+		ifstream fin("csBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity - 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("csBooks.txt");
+		result = rename("tempFile.txt", "csbooks.txt");
+	}
+	if (iCategory == 2)
+	{
+		ifstream fin("eceBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity - 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("eceBooks.txt");
+		result = rename("tempFile.txt", "ecebooks.txt");
+	}
+	if (iCategory == 3)
+	{
+		ifstream fin("elecBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity - 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("elecBooks.txt");
+		result = rename("tempFile.txt", "elecbooks.txt");
+	}
+	if (iCategory == 4)
+	{
+		ifstream fin("mechBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity - 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("mechBooks.txt");
+		result = rename("tempFile.txt", "mechbooks.txt");
+	}
+	if (iCategory == 5)
+	{
+		ifstream fin("civilBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity - 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("civilBooks.txt");
+		result = rename("tempFile.txt", "civilbooks.txt");
+	}
+	if (iCategory == 6)
+	{
+		ifstream fin("yearOneBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity - 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("yearOneBooks.txt");
+		result = rename("tempFile.txt", "yearOnebooks.txt");
+	}
+	if (result == 0)
+		cout << "\n\n\t\t\tBook Issued Successfully.";
+	cout << "\n\n\t\t\tPress any key to continue";
+	(void)_getch();
+	modifyBooklist();
+}
+
+//funtion to return book
+void Library::returnBook()
+{
+	cls();
+	int rtCategory = booksCategory(2);
+	cls();
+	char bookName[100];
+	int result = INT_MIN;
+	if (rtCategory == 1)
+	{
+		ifstream fin("csBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity + 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("csBooks.txt");
+		result = rename("tempFile.txt", "csbooks.txt");
+	}
+	if (rtCategory == 2)
+	{
+		ifstream fin("eceBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity + 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("eceBooks.txt");
+		result = rename("tempFile.txt", "ecebooks.txt");
+	}
+	if (rtCategory == 3)
+	{
+		ifstream fin("elecBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity + 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("elecBooks.txt");
+		result = rename("tempFile.txt", "elecbooks.txt");
+	}
+	if (rtCategory == 4)
+	{
+		ifstream fin("mechBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity + 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("mechBooks.txt");
+		result = rename("tempFile.txt", "mechbooks.txt");
+	}
+	if (rtCategory == 5)
+	{
+		ifstream fin("civilBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity + 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("civilBooks.txt");
+		result = rename("tempFile.txt", "civilbooks.txt");
+	}
+	if (rtCategory == 6)
+	{
+		ifstream fin("yearOneBooks.txt", ios::in);
+		ofstream fout("tempFile.txt", ios::app);
+		if (!fin)
+			cout << "\n\t\tFile Not Found.";
+		else
+		{
+			cout << "\n\t\tEnter Book's Name: ";
+			cin.ignore();
+			cin.getline(bookName, 100);
+			while (1)
+			{
+				if (fin.eof())
+					break;
+				fin.getline(book, 100);
+				fin.getline(author, 100);
+				fin.getline(publication, 100);
+				fin >> id >> price >> quantity;
+				if (strcmp(bookName, book) != 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity;
+				if (strcmp(bookName, book) == 0)
+					fout << book << endl << author << endl << publication << endl << id << endl << price << endl << quantity + 1;
+			}
+		}
+		fout.close();
+		fin.close();
+		remove("yearOneBooks.txt");
+		result = rename("tempFile.txt", "yearOnebooks.txt");
+	}
+	if (result == 0)
+		cout << "\n\n\t\t\tBook Return Success.";
+	cout << "\n\n\t\t\tPress any key to continue";
+	(void)_getch();
+	modifyBooklist();
 }
 
 //driver function
